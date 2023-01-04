@@ -60,29 +60,24 @@ func ToArabic(operand string) int {
 }
 
 func CheckError(exampleArray []string) {
-	textError := ""
 	if len(exampleArray) < 3 {
-		textError = "так как строка не является математической операцией."
+		panic(errors.New("так как строка не является математической операцией."))
 	}
 	if len(exampleArray) > 3 {
-		textError = "так как формат математической операции не удовлетворяет заданию — два операнда и один оператор (+, -, /, *)."
+		panic(errors.New("так как формат математической операции не удовлетворяет заданию — два операнда и один оператор (+, -, /, *)."))
 	}
 	if CheckDigit(exampleArray[0]) != CheckDigit(exampleArray[2]) {
-		textError = "так как используются одновременно разные системы счисления."
+		panic(errors.New("так как используются одновременно разные системы счисления."))
 	}
 	reg := regexp.MustCompile("^(\\/|\\*|\\-|\\+)$")
 	if len(reg.FindAllString(exampleArray[1], -1)) != 1 {
-		textError = "так как формат математической операции не удовлетворяет заданию — два операнда и один оператор (+, -, /, *)."
+		panic(errors.New("так как формат математической операции не удовлетворяет заданию — два операнда и один оператор (+, -, /, *)."))
 	}
 
 	operand1 := ToArabic(exampleArray[0])
 	operand2 := ToArabic(exampleArray[2])
 	if operand1 > 10 || operand1 < 1 || operand2 > 10 || operand2 < 1 {
-		textError = "так как калькулятор должен принимать на вход числа от 1 до 10 включительно, не более."
-	}
-	if len(textError) > 0 {
-		err := errors.New(textError)
-		panic(err)
+		panic(errors.New("так как калькулятор должен принимать на вход числа от 1 до 10 включительно, не более."))
 	}
 
 }
